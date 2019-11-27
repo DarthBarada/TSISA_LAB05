@@ -8,25 +8,25 @@
 
 #include "Save.h"
 /*
-	Структура для описания условий задачи
+	РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РѕРїРёСЃР°РЅРёСЏ СѓСЃР»РѕРІРёР№ Р·Р°РґР°С‡Рё
 */
 struct Data
 	{
-		std::pair<double,double> X_interval = {0.0, 3.141592653589793238463}; // Интервал
-		size_t K_ = 100; // Количество отсчетов.
-		double amplitude_of_noise = 0.5; // Амплитуда равномерного шума
-		double P = 0.95; // Вероятность попадания в окрестность экстремума
-		double eps = 0.01; // Интервал неопределенности
+		std::pair<double,double> X_interval = {0.0, 3.141592653589793238463}; // РРЅС‚РµСЂРІР°Р»
+		size_t K_ = 100; // РљРѕР»РёС‡РµСЃС‚РІРѕ РѕС‚СЃС‡РµС‚РѕРІ.
+		double amplitude_of_noise = 0.5; // РђРјРїР»РёС‚СѓРґР° СЂР°РІРЅРѕРјРµСЂРЅРѕРіРѕ С€СѓРјР°
+		double P = 0.95; // Р’РµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РїРѕРїР°РґР°РЅРёСЏ РІ РѕРєСЂРµСЃС‚РЅРѕСЃС‚СЊ СЌРєСЃС‚СЂРµРјСѓРјР°
+		double eps = 0.01; // РРЅС‚РµСЂРІР°Р» РЅРµРѕРїСЂРµРґРµР»РµРЅРЅРѕСЃС‚Рё
 		double J = 90000000.0;
-		size_t L_ = 10u; // Интервал неопределенности
-		std::vector <size_t> radius_ {3,5}; // Размер скользящего окна
+		size_t L_ = 10u; // РРЅС‚РµСЂРІР°Р» РЅРµРѕРїСЂРµРґРµР»РµРЅРЅРѕСЃС‚Рё
+		std::vector <size_t> radius_ {3,5}; // Р Р°Р·РјРµСЂ СЃРєРѕР»СЊР·СЏС‰РµРіРѕ РѕРєРЅР°
 		std::vector <size_t> M_;
 		std::vector <double> alpha;
 		std::vector <double> xk;
 		std::vector <double> F_xk_;
 		std::vector <double> F_xk_noised;
 		std::vector <double> F_xk_filtered;
-		std::vector <double> lambda; // Веса свертки
+		std::vector <double> lambda; // Р’РµСЃР° СЃРІРµСЂС‚РєРё
 		std::pair<double,double> omega_delta{90000000.0,90000000.0};
 
 		void init()
@@ -39,18 +39,18 @@ struct Data
 					{
 						lambda.push_back(0.1 * index);
 					}
-				// Вычисляем xk
+				// Р’С‹С‡РёСЃР»СЏРµРј xk
 				for (size_t index = 0u;index <= K_;++index)
 					{
 						xk.push_back(calculate_x_k(index));
 					}
-				// Вычисляем f(xk) и f(xk) с шумами
+				// Р’С‹С‡РёСЃР»СЏРµРј f(xk) Рё f(xk) СЃ С€СѓРјР°РјРё
 				for (size_t index = 0u;index <= K_;++index)
 					{
 						F_xk_.push_back(signal(xk[index]));
 						F_xk_noised.push_back(signal_plus_noise(xk[index],dis(gen)));
 					}
-				// Вычисляем M
+				// Р’С‹С‡РёСЃР»СЏРµРј M
 				for (size_t index = 0u;index < radius_.size(); ++index)
 					{
 						M_.push_back((radius_[index]-1u)/2u);
@@ -66,37 +66,37 @@ struct Data
 					}
 				else
 					{
-						throw std::runtime_error("Неверное значение для k!");
+						throw std::runtime_error("РќРµРІРµСЂРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ k!");
 					}
 			}
 		/**
-			Функция вычисления сигнала для xk
+			Р¤СѓРЅРєС†РёСЏ РІС‹С‡РёСЃР»РµРЅРёСЏ СЃРёРіРЅР°Р»Р° РґР»СЏ xk
 		*/
 		const double signal(double Xk_)
 			{
 				return std::sin(Xk_) + 0.5;
 			}
 		/**
-			Функция вычисления сигнала с шумом для xk
+			Р¤СѓРЅРєС†РёСЏ РІС‹С‡РёСЃР»РµРЅРёСЏ СЃРёРіРЅР°Р»Р° СЃ С€СѓРјРѕРј РґР»СЏ xk
 		*/
 		const double signal_plus_noise(double Xk_,double noise)
 			{
 				return std::sin(Xk_) + 0.5 + noise;
 			}
 		/**
-			Функция получения числа испытаний N 
+			Р¤СѓРЅРєС†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ С‡РёСЃР»Р° РёСЃРїС‹С‚Р°РЅРёР№ N 
 		*/
 		const double get_N()
 			{
 				return (log(1.0-P)/log(1.0 - ( eps/( X_interval.second - X_interval.first ) )));
 			}
 		/**
-			Функция вычисления среднего геометрического
+			Р¤СѓРЅРєС†РёСЏ РІС‹С‡РёСЃР»РµРЅРёСЏ СЃСЂРµРґРЅРµРіРѕ РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРѕРіРѕ
 		*/
 		double geom_average(std::vector<double> alpha,size_t M,size_t k)
 			{
 				double temp = 1.0;
-				if(k < M || k > K_ - M)	// k-M должно быть больше или равно 0
+				if(k < M || k > K_ - M)	// k-M РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РёР»Рё СЂР°РІРЅРѕ 0
 					{
 						return 0.0;
 					}
@@ -171,10 +171,10 @@ class worker
 						double M = data.M_[jump];
 
 						temp_save.r = data.radius_[jump];
-						for (size_t l = 0u; l < data.lambda.size(); ++l) // для различных значений весов
+						for (size_t l = 0u; l < data.lambda.size(); ++l) // РґР»СЏ СЂР°Р·Р»РёС‡РЅС‹С… Р·РЅР°С‡РµРЅРёР№ РІРµСЃРѕРІ
 							{
 								temp_save.h = data.lambda[l];
-								for (size_t index = 0u; index < N_; ++index)		// Число испытаний N
+								for (size_t index = 0u; index < N_; ++index)		// Р§РёСЃР»Рѕ РёСЃРїС‹С‚Р°РЅРёР№ N
 									{
 										temp_alpha.reserve(M+1u);
 										temp_alpha.resize(M+1u);
@@ -188,16 +188,16 @@ class worker
 													}
 											}
 										temp_alpha.front() = 0.5*(1.0 - data.sum(temp_alpha,1u,r-2u));
-										// Уже сгенерирован набор альфа
-										data.init_Fx_filtered(temp_alpha,M);	// Находим отфильтрованную функцию
-										// Находим критерий зашумленности (по Евклиду)
+										// РЈР¶Рµ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅ РЅР°Р±РѕСЂ Р°Р»СЊС„Р°
+										data.init_Fx_filtered(temp_alpha,M);	// РќР°С…РѕРґРёРј РѕС‚С„РёР»СЊС‚СЂРѕРІР°РЅРЅСѓСЋ С„СѓРЅРєС†РёСЋ
+										// РќР°С…РѕРґРёРј РєСЂРёС‚РµСЂРёР№ Р·Р°С€СѓРјР»РµРЅРЅРѕСЃС‚Рё (РїРѕ Р•РІРєР»РёРґСѓ)
 										double summ = 0.0;
 										for (size_t kol = 1u; kol <= data.K_; ++kol) 
 											{
 												summ += pow((data.F_xk_filtered[kol] - data.F_xk_filtered[kol - 1u]) , 2);		
 											}
 										temp_omega_delta.first = sqrt(summ); summ=0.0;
-										// Находим критерий отличия (по Евклиду)
+										// РќР°С…РѕРґРёРј РєСЂРёС‚РµСЂРёР№ РѕС‚Р»РёС‡РёСЏ (РїРѕ Р•РІРєР»РёРґСѓ)
 										for (size_t kol = 0u; kol <= data.K_; ++kol) 
 											{
 												summ += pow((data.F_xk_filtered[kol] - data.F_xk_noised[kol]) , 2);
