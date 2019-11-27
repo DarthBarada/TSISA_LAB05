@@ -14,25 +14,25 @@ struct Graph
 
 		void print()
 			{
-				std::cout<<"x = ["<<x.front;
+				std::cout<<"x = ["<<x.front();
 				for (auto num = std::next(x.begin());num !=x.end();++num)
 					{
 						std::cout<<", "<<(*num);
 					}
 				std::cout<<"]\n";
-				std::cout<<"y(x) = ["<<Function.front;
+				std::cout<<"y(x) = ["<<Function.front();
 				for (auto num = std::next(Function.begin());num != Function.end();++num)
 					{
 						std::cout<<", "<<(*num);
 					}
 				std::cout<<"]\n";
-				std::cout<<"y1(x) = ["<<Function_noised.front;
+				std::cout<<"y1(x) = ["<<Function_noised.front();
 				for (auto num = std::next(Function_noised.begin());num != Function_noised.end();++num)
 					{
 						std::cout<<", "<<(*num);
 					}
 				std::cout<<"]\n";
-				std::cout<<"y2(x) = ["<<Function_filtered.front;
+				std::cout<<"y2(x) = ["<<Function_filtered.front();
 				for (auto num = std::next(Function_filtered.begin());num != Function_filtered.end();++num)
 					{
 						std::cout<<", "<<(*num);
