@@ -7,10 +7,10 @@
 
 struct Graph
 	{
-		std::vector <double> x;	// Вектор параметров
-		std::vector <double> Function;	// Вектор значений функции
-		std::vector <double> Function_noised; // Вектор значений функции с шумами
-		std::vector <double> Function_filtered; // Вектор значений отфильтрованной функции
+		std::vector <double> x;	// Р’РµРєС‚РѕСЂ РїР°СЂР°РјРµС‚СЂРѕРІ
+		std::vector <double> Function;	// Р’РµРєС‚РѕСЂ Р·РЅР°С‡РµРЅРёР№ С„СѓРЅРєС†РёРё
+		std::vector <double> Function_noised; // Р’РµРєС‚РѕСЂ Р·РЅР°С‡РµРЅРёР№ С„СѓРЅРєС†РёРё СЃ С€СѓРјР°РјРё
+		std::vector <double> Function_filtered; // Р’РµРєС‚РѕСЂ Р·РЅР°С‡РµРЅРёР№ РѕС‚С„РёР»СЊС‚СЂРѕРІР°РЅРЅРѕР№ С„СѓРЅРєС†РёРё
 
 		void print()
 			{
@@ -97,6 +97,6 @@ struct Result
 
 struct V10
 	{
-		Result resut1; // Для r=3
-		Result resut2; // Для r=5
+		Result resut1; // Р”Р»СЏ r=3
+		Result resut2; // Р”Р»СЏ r=5
 	};
